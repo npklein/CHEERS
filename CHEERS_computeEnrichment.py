@@ -279,11 +279,11 @@ fill in the positions and normalised ranks for SNPsOverlappingPeaks
 
 for snp in overlappedPeaks: #take each SNP (key in the overlappedPeaks) that overlaps peaks
     overlappedPeak = overlappedPeaks[snp] #take peak that overlapps SNP
-    SNPsOverlappingPeaks += snp + '\t' #add first SNP name
-    SNPsOverlappingPeaks += str(int(overlappedSNPs[snp]['pos'])) + '\t'
-    SNPsOverlappingPeaks += overlappedPeak[0]['chr'] + '\t' + str(int(overlappedPeak[0]['start'])) + '\t' + str(int(overlappedPeak[0]['end'])) + '\t' #since coordinates are the same for all the samples only add them once
+    SNPsOverlappingPeaks += snp #add first SNP name
+    SNPsOverlappingPeaks += '\t'+ str(int(overlappedSNPs[snp]['pos']))
+    SNPsOverlappingPeaks += '\t'+overlappedPeak[0]['chr'] + '\t' + str(int(overlappedPeak[0]['start'])) + '\t' + str(int(overlappedPeak[0]['end'])) #since coordinates are the same for all the samples only add them once
     for peak in overlappedPeak:
-        SNPsOverlappingPeaks += str(int(peak['rank'])) + '\t' #add ranks
+        '\t'+SNPsOverlappingPeaks += str(int(peak['rank'])) #add ranks
     SNPsOverlappingPeaks += '\n'
 
 
@@ -322,9 +322,9 @@ for key in uniquePeaks:
     chr = keyList[0]
     start = float(keyList[1])
     end = float(keyList[2])
-    peaksOverlappingSNP += chr + '\t' + str(int(start)) + '\t' + str(int(end)) + '\t'
+    peaksOverlappingSNP += chr + '\t' + str(int(start)) + '\t' + str(int(end))
     for rank in overlappedPeak:
-        peaksOverlappingSNP += str(int(rank)) + '\t'
+        '\t'+peaksOverlappingSNP += str(int(rank))
     peaksOverlappingSNP += '\n'
 
 name2 = str(args.outdir) + str(args.trait) + '_uniquePeaks.txt'
