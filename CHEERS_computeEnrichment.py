@@ -175,7 +175,7 @@ each chr directory there are .txt files named after lead SNP (for example result
 - each file contains all the SNPs in the LD (snp name is at position 3, chr at position 0 and bp info is at position 4)
 - load it into the list of dictionaries with the structure: [{'chr': 'chr1', 'name': 'SNP1', 'pos': P1}, {'chr': 'chr1', 'name': 'SNP2', 'pos': P2}, ... ]
 '''
-
+n_snps = 0
 if args.ld is not None:
     ldPerChr = os.listdir(args.ld)
     for chrDir in ldPerChr:
@@ -193,6 +193,7 @@ if args.ld is not None:
                         chr = snpInLDParts[0]
                     position = float(snpInLDParts[4])
                     # create dictionary containing name, position and chr
+                    n_snps += 1
                     snpsList.append({
                         'name': snpInLDParts[3],
                         'pos': position,
@@ -206,6 +207,7 @@ if args.snp_list is not None:
     ldParts = ld.split("\n")
     chr = None
     for snpLd in ldParts:
+        n_snps += 1
         if (snpLd):
             ldParts = snpLd.split("\t")
             if not (chr):
@@ -383,6 +385,7 @@ running_time = (end_time1 - start_time1)
 
 logfileName = str(args.outdir) + str(args.trait) + ".log"
 logfile = open(logfileName, "w")
+print >> logfile, 'Total number of snps\t%s' % (str(n_snps))
 print >> logfile, 'Total number of peaks\t%s' % (str(N))
 print >> logfile, 'Number of overlapping peaks\t%s' % (str(n))
 print >> logfile, 'Number of SNPs overlapping peaks\t%s' % (str(len(overlappedPeaks)))
