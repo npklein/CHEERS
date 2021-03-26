@@ -52,7 +52,6 @@ def snpLdTabix(snp, chrom, bp, tabixDir, window, r2min):
     """
     file = os.path.join(tabixDir, '{}_GRCh38.EUR.ld.bgz')
     tabixFile = file.format(chrom)
-    print 'tabixFile'
     st = bp - window
     if st < 0:
         st = 0
@@ -155,12 +154,17 @@ def write_ld(snp_map, tabixDir, window, r2min, dout):
             if not infile:
                 print "{snp} on {chrom} was not found in the tabix file." \
                     .format(**locals())
+                print "still writing output file, due to changes of PLINK they should be included"
+                print "writing results to {}".format(fname)
+                with open(fout, 'w') as f:
+                    # format string
+                    line_format = '\t'.join(['{}'] * 7) + '\n'
+                    f.write(line_format.format(chrom, snp, bp, snp, bp, '1', '1'))
             else:
                 print "writing results to {}".format(fname)
                 with open(fout, 'w') as f:
                     # format string
                     line_format = '\t'.join(['{}'] * 7) + '\n'
-
                     for ldsnp in ldInfo:
                         ldbp = ldInfo[ldsnp]['bp2']
                         ldr2 = ldInfo[ldsnp]['r2']
